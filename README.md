@@ -16,5 +16,8 @@ Pour ouvrir le site et visualiser toutes ses fonctionnalités, voici les étapes
 
 ### Auteur
 Théophile Grimault
+
+### Versions
 npm version 6.4.1
+
 NodeJS version 8.12.0
