@@ -1,7 +1,7 @@
 # TP1
 
 ## Introduction
-Ce premier TP nous a permis de rapidement voir et comprendre comment le système de routing basique fonctionne en NodeJS.
+Ce premier TP nous a permis de rapidement voir et comprendre comment le système de routing basique fonctionne en NodeJS, cette fois-ci avec le package "ExpressJS"
 
 ## Instructions de lancement
 Pour ouvrir le site et visualiser toutes ses fonctionnalités, voici les étapes à suivre :
