@@ -38,3 +38,12 @@ app.listen(port, (err) => {
         throw err;
     console.log(`Server is listening on port ${port}`);
 });
+app.delete("/metrics/:id", (req, res) => {
+    dbMet.delete(req.params.id, (err) => {
+        if (err) {
+            res.status(500);
+            throw err;
+        }
+        res.status(200).send();
+    });
+});

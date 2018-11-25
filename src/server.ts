@@ -39,7 +39,7 @@ app.listen(port, (err: Error) => {
 });
 
 app.delete("/metrics/:id", (req: any, res: any) => {
-  dbMet.delete(req.params.id, req.body, (err: Error | null) => {
+  dbMet.delete(req.params.id, (err: Error | null) => {
     if (err) {
       res.status(500);
       throw err;

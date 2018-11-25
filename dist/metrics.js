@@ -44,5 +44,27 @@ class MetricsHandler {
             }
         });
     }
+    delete(key, callback) {
+        const stream = this.db.createReadStream();
+        var met = [];
+        stream
+            .on("error", callback)
+            .on("end", (err) => {
+            callback(null, met);
+        })
+            .on("data", (data) => {
+            const [, k, timestamp] = data.key.split(":");
+            const value = data.value;
+            if (key != k) {
+                console.log(`Level DB error: ${data} does not match key ${key}`);
+            }
+            else {
+                this.db.del(data.key, function (err) {
+                    if (err)
+                        console.log(err);
+                });
+            }
+        });
+    }
 }
 exports.MetricsHandler = MetricsHandler;
