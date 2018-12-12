@@ -24,18 +24,34 @@ describe('Metrics', function () {
     });
     describe('#save', function () {
         it('should save data', function () {
-            // TODO
+            const met = [new metrics_1.Metric(`${new Date('2013-11-04 14:00 UTC').getTime()}`, 12)];
+            dbMet.save("0", met, function (err) {
+            });
         });
-        it('should update data', function () {
-            // TODO
+        it('should not fail if data exist', function () {
+            dbMet.get("0", function (err, result) {
+                chai_1.expect(err).to.be.null;
+                chai_1.expect(result).to.not.be.undefined;
+                chai_1.expect(result).to.be.an("array");
+            });
         });
     });
-    describe('#delete', function () {
-        it('should delete data', function () {
-            // TODO
+    describe('#update', function () {
+        it('should update data', function () {
+        });
+        describe('#delete', function () {
+            it('should delete data', function () {
+                const met = new metrics_1.Metric(`${new Date('2013-11-04 14:00 UTC').getTime()}`, 12);
+                dbMet.remove("0", function (err) {
+                    chai_1.expect(err).to.be.null;
+                });
+            });
         });
         it('should not fail if data does not exist', function () {
-            // TODO
+            dbMet.get("0", function (err, result) {
+                chai_1.expect(err).to.be.null;
+                chai_1.expect(result).to.be.undefined;
+            });
         });
     });
 });

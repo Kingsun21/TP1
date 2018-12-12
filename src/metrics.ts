@@ -1,4 +1,4 @@
-import { LevelDB } from "./leveldb"
+import { LevelDb } from "./leveldb"
 import WriteStream from 'level-ws'
 
 export class Metric {
@@ -15,7 +15,7 @@ export class MetricsHandler {
   public db: any
 
   constructor(path: string) {
-    this.db = LevelDB.open(path)
+    this.db = LevelDb.open(path)
   }
 
   public save(key: string, met: Metric[], callback: (err: Error | null) => void) {

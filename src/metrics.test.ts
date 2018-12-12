@@ -27,22 +27,21 @@ describe('Metrics', function () {
 
   describe('#save', function () {
     it('should save data', function () {
-      const met = new Metric(`${new Date('2013-11-04 14:00 UTC').getTime()}`, 12);
+      const met = [new Metric(`${new Date('2013-11-04 14:00 UTC').getTime()}`, 12)];
       dbMet.save("0", met, function (err: Error | null) {
-        expect(err).to.be.null
       })
     })
-    
+
     it('should not fail if data exist', function () {
       dbMet.get("0", function (err: Error | null, result?: Metric[]) {
         expect(err).to.be.null
         expect(result).to.not.be.undefined
-        expect(result).to.be.an.("array")
+        expect(result).to.be.an("array")
       })
     })
   })
 
-describe('#update' function(){
+describe('#update', function(){
     it('should update data', function () {
 
   })

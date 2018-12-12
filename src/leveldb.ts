@@ -4,7 +4,7 @@ import levelup from 'levelup'
 import fs = require('fs')
 import del = require('del')
 
-export class LevelDB {
+export class LevelDb {
   static open(path: string) {
     const encoded = encoding(
       leveldown(path),

@@ -25,6 +25,15 @@ class MetricsHandler {
         });
         stream.end();
     }
+    update(key, met, callback) {
+        const stream = level_ws_1.default(this.db);
+        stream.on('close', callback);
+        stream.on('error', callback);
+        met.forEach((m) => {
+            stream.write({ key: `metrics:${key}:${m.timestamp}`, value: m.value });
+        });
+        stream.end();
+    }
     get(key, callback) {
         const stream = this.db.createReadStream();
         var met = [];
@@ -45,7 +54,6 @@ class MetricsHandler {
     }
     remove(key, callback) {
         const stream = this.db.createReadStream();
-        var met = [];
         stream
             .on("error", callback)
             .on("end", (err) => {
