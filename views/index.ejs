@@ -23,7 +23,8 @@
 <script>
   $('#show-metrics').click((e) => {
     e.preventDefault()
-    $.getJSON('/metrics.json', {}, (data) => {
+    const user = "<%- name %>"
+    $.getJSON(`metrics/${user}`, {}, (data) => {
       const content = data.map(d => {
         return `<p>timestamp: ${d.timestamp}, value: ${d.value}</p>`
       })
@@ -31,5 +32,6 @@
     })
   })
 </script>
+
 
 </html>

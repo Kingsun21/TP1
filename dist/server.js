@@ -115,27 +115,29 @@ metricsRouter.use(function (req, res, next) {
     console.log("called metrics router");
     next();
 });
-metricsRouter.get('/:id', (req, res, next) => {
-    dbMet.get(req.params.id, (err, result) => {
-        if (err)
-            next(err);
-        if (result === undefined) {
-            res.write('no result');
-            res.send();
-        }
-        else
-            res.json(result);
-    });
+metricsRouter.get('/:username/:id', (req, res, next) => {
+    if (req.session.user.username === req.params.username) {
+        dbMet.get(req.params.username, req.params.id, (err, result) => {
+            if (err)
+                next(err);
+            if (result === undefined) {
+                res.write('no result');
+                res.send();
+            }
+            else
+                res.json(result);
+        });
+    }
 });
 metricsRouter.post('/:id', (req, res, next) => {
-    dbMet.save(req.params.id, req.body, (err) => {
+    dbMet.save(req.params.username, req.params.id, req.body, (err) => {
         if (err)
             next(err);
         res.status(200).send();
     });
 });
 metricsRouter.delete('/:id', (req, res, next) => {
-    dbMet.remove(req.params.id, (err) => {
+    dbMet.remove(req.params.username, req.params.id, (err) => {
         if (err)
             next(err);
         res.status(200).send();

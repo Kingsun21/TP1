@@ -132,25 +132,27 @@ metricsRouter.use(function (req: any, res: any, next: any) {
   next()
 })
 
-metricsRouter.get('/:id', (req: any, res: any, next: any) => {
-  dbMet.get(req.params.id, (err: Error | null, result?: Metric[]) => {
-    if (err) next(err)
-    if (result === undefined) {
-      res.write('no result')
-      res.send()
-    } else res.json(result)
-  })
+metricsRouter.get('/:username/:id', (req: any, res: any, next: any) => {
+  if (req.session.user.username === req.params.username) {
+    dbMet.get(req.params.username, req.params.id, (err: Error | null, result?: Metric[]) => {
+      if (err) next(err)
+      if (result === undefined) {
+        res.write('no result')
+        res.send()
+      } else res.json(result)
+    })
+  }
 })
 
 metricsRouter.post('/:id', (req: any, res: any, next: any) => {
-  dbMet.save(req.params.id, req.body, (err: Error | null) => {
+  dbMet.save(req.params.username, req.params.id, req.body, (err: Error | null) => {
     if (err) next(err)
     res.status(200).send()
   })
 })
 
 metricsRouter.delete('/:id', (req: any, res: any, next: any) => {
-  dbMet.remove(req.params.id, (err: Error | null) => {
+  dbMet.remove(req.params.username, req.params.id, (err: Error | null) => {
     if (err) next(err)
     res.status(200).send()
   })

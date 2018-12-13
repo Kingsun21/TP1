@@ -31,7 +31,7 @@ class User {
 exports.User = User;
 class UserHandler {
     constructor(path) {
-        this.db = leveldb_1.LevelDB.open(path);
+        this.db = leveldb_1.LevelDb.open(path);
     }
     get(username, callback) {
         this.db.get(`user:${username}`, function (err, data) {

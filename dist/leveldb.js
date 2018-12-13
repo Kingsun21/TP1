@@ -8,7 +8,7 @@ const leveldown_1 = __importDefault(require("leveldown"));
 const levelup_1 = __importDefault(require("levelup"));
 const fs = require("fs");
 const del = require("del");
-class LevelDB {
+class LevelDb {
     static open(path) {
         const encoded = encoding_down_1.default(leveldown_1.default(path), { valueEncoding: 'json' });
         return levelup_1.default(encoded);
@@ -19,4 +19,4 @@ class LevelDB {
         }
     }
 }
-exports.LevelDB = LevelDB;
+exports.LevelDb = LevelDb;

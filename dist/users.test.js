@@ -7,7 +7,7 @@ const dbPath = 'db_test/users';
 var dbUser;
 describe('Users', function () {
     before(function () {
-        leveldb_1.LevelDB.clear(dbPath);
+        leveldb_1.LevelDb.clear(dbPath);
         dbUser = new users_1.UserHandler(dbPath);
     });
     after(function () {
@@ -22,20 +22,24 @@ describe('Users', function () {
             });
         });
     });
-    describe('#save', function () {
+    /*
+      describe('#save', function () {
         it('should save a User', function () {
-            // TODO
-        });
+          expect(err).to.be.null
+        })
+    
         it('should update a User', function () {
-            // TODO
-        });
-    });
-    describe('#delete', function () {
+          expect(err).to.be.null
+        })
+      })
+    
+      describe('#delete', function () {
         it('should delete a User', function () {
-            // TODO
-        });
+          expect(err).to.be.null
+        })
+    
         it('should not fail if User does not exist', function () {
-            // TODO
-        });
-    });
+          expect(err).to.be.null
+        })
+      })*/
 });

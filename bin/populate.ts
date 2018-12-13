@@ -9,16 +9,17 @@ const met = [
   new Metric(`${new Date('2013-11-04 14:30 UTC').getTime()}`, 8)
 ]
 
-const db1 = new MetricsHandler('./db/metrics')
-const db2 = new UserHandler('./db/users')
+const dbMet = new MetricsHandler('./db/metrics')
+const dbUser = new UserHandler('./db/users')
+
 const user = new User("Dennis", "dennis@oui.com", "chipsobeur");
 
-db1.save('0', met, (err: Error | null) => {
+dbMet.save('Dennis', '0', met, (err: Error | null) => {
   if (err) throw err
   console.log('Data populated')
 })
 
-db2.save(user, (err: Error | null) => {
+dbUser.save(user, (err: Error | null) => {
   if (err) throw err
   console.log('Data populated')
 })

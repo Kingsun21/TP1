@@ -14,27 +14,18 @@ class Metric {
 exports.Metric = Metric;
 class MetricsHandler {
     constructor(path) {
-        this.db = leveldb_1.LevelDB.open(path);
+        this.db = leveldb_1.LevelDb.open(path);
     }
-    save(key, met, callback) {
+    save(username, key, met, callback) {
         const stream = level_ws_1.default(this.db);
         stream.on('close', callback);
         stream.on('error', callback);
         met.forEach((m) => {
-            stream.write({ key: `metrics:${key}:${m.timestamp}`, value: m.value });
+            stream.write({ key: `metrics:${username}:${key}:${m.timestamp}`, value: m.value });
         });
         stream.end();
     }
-    update(key, met, callback) {
-        const stream = level_ws_1.default(this.db);
-        stream.on('close', callback);
-        stream.on('error', callback);
-        met.forEach((m) => {
-            stream.write({ key: `metrics:${key}:${m.timestamp}`, value: m.value });
-        });
-        stream.end();
-    }
-    get(key, callback) {
+    get(username, key, callback) {
         const stream = this.db.createReadStream();
         var met = [];
         stream.on('error', callback)
@@ -42,9 +33,9 @@ class MetricsHandler {
             callback(null, met);
         })
             .on('data', (data) => {
-            const [_, k, timestamp] = data.key.split(":");
+            const [_, u, k, timestamp] = data.key.split(":");
             const value = data.value;
-            if (key != k) {
+            if (key != k || username != u) {
                 console.log(`LevelDB error: ${data} does not match key ${key}`);
             }
             else {
@@ -52,7 +43,7 @@ class MetricsHandler {
             }
         });
     }
-    remove(key, callback) {
+    remove(username, key, callback) {
         const stream = this.db.createReadStream();
         stream
             .on("error", callback)
@@ -60,9 +51,9 @@ class MetricsHandler {
             callback(null);
         })
             .on("data", (data) => {
-            const [, k, timestamp] = data.key.split(":");
+            const [, u, k, timestamp] = data.key.split(":");
             const value = data.value;
-            if (key != k) {
+            if (key != k || username != u) {
                 console.log(`Level DB error: ${data} does not match key ${key}`);
             }
             else {

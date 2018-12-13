@@ -18,33 +18,20 @@ export class MetricsHandler {
     this.db = LevelDb.open(path)
   }
 
-  public save(key: string, met: Metric[], callback: (err: Error | null) => void) {
+  public save(username: string, key: string, met: Metric[], callback: (err: Error | null) => void) {
     const stream = WriteStream(this.db)
 
     stream.on('close', callback)
     stream.on('error', callback)
 
     met.forEach((m: Metric) => {
-      stream.write({ key: `metrics:${key}:${m.timestamp}`, value: m.value })
+      stream.write({ key: `metrics:${username}:${key}:${m.timestamp}`, value: m.value })
     })
 
     stream.end()
   }
 
-  public update(key: string, met: Metric[], callback: (err: Error | null) => void) {
-    const stream = WriteStream(this.db)
-
-    stream.on('close', callback)
-    stream.on('error', callback)
-
-    met.forEach((m: Metric) => {
-      stream.write({ key: `metrics:${key}:${m.timestamp}`, value: m.value })
-    })
-
-    stream.end()
-  }
-
-  public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
+  public get(username: string, key: string, callback: (err: Error | null, result?: Metric[]) => void) {
     const stream = this.db.createReadStream()
     var met: Metric[] = []
 
@@ -53,10 +40,10 @@ export class MetricsHandler {
         callback(null, met)
       })
       .on('data', (data: any) => {
-        const [_, k, timestamp] = data.key.split(":")
+        const [_, u, k, timestamp] = data.key.split(":")
         const value = data.value
 
-        if (key != k) {
+        if (key != k || username != u) {
           console.log(`LevelDB error: ${data} does not match key ${key}`)
         } else {
           met.push(new Metric(timestamp, value))
@@ -64,7 +51,8 @@ export class MetricsHandler {
       })
   }
 
-  public remove(key: string, callback: (err: Error | null) => void) {
+
+  public remove(username: string, key: string, callback: (err: Error | null) => void) {
     const stream = this.db.createReadStream();
 
     stream
@@ -73,9 +61,9 @@ export class MetricsHandler {
         callback(null);
       })
       .on("data", (data: any) => {
-        const [, k, timestamp] = data.key.split(":");
+        const [, u, k, timestamp] = data.key.split(":");
         const value = data.value;
-        if (key != k) {
+        if (key != k || username != u) {
           console.log(`Level DB error: ${data} does not match key ${key}`);
         }
         else {
