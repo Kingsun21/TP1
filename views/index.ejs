@@ -24,7 +24,7 @@
   $('#show-metrics').click((e) => {
     e.preventDefault()
     const user = "<%- name %>"
-    $.getJSON(`metrics/${user}`, {}, (data) => {
+    $.getJSON(`metrics/${user}/0`, {}, (data) => {
       const content = data.map(d => {
         return `<p>timestamp: ${d.timestamp}, value: ${d.value}</p>`
       })

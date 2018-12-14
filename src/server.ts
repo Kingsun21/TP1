@@ -83,7 +83,7 @@ const authMiddleware = function (req: any, res: any, next: any) {
 */
 
 app.get('/', authMiddleware, (req: any, res: any) => {
-  res.render('index', { name: req.session.username })
+  res.render('index', { name: req.session.user.username })
 })
 
 /*
@@ -145,7 +145,7 @@ metricsRouter.get('/:username/:id', (req: any, res: any, next: any) => {
 })
 
 metricsRouter.post('/:id', (req: any, res: any, next: any) => {
-  dbMet.save(req.params.username, req.params.id, req.body, (err: Error | null) => {
+  dbMet.save(req.session.user.username, req.params.id, req.body, (err: Error | null) => {
     if (err) next(err)
     res.status(200).send()
   })
