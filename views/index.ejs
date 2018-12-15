@@ -3,6 +3,7 @@
 
 <head>
   <% include partials/head %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 
 <body class="container">
@@ -16,7 +17,9 @@
     <button class="btn btn-danger" href="/logout" onClick='document.location.href="/logout"'>
       Logout
     </button>
-    <div id="metrics"></div>
+    <div id="metrics" style="width:900px;">
+      <canvas id="chart"></canvas>
+    </div>
   </div>
 </body>
 
@@ -29,6 +32,33 @@
         return `<p>timestamp: ${d.timestamp}, value: ${d.value}</p>`
       })
       $("#metrics").append(content.join("\n"))
+      let values =[];
+      let timestamp =[];
+      data.forEach(function(element) {
+        values.push(element.value)
+        timestamp.push(element.timestamp)
+      })
+      var ctx = document.getElementById('chart').getContext('2d');
+      var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: timestamp,
+                datasets: [{
+                    label: 'metrics',
+                    data: values,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
     })
   })
 </script>

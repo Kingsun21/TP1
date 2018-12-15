@@ -12,9 +12,9 @@ const met = [
 const dbMet = new MetricsHandler('./db/metrics')
 const dbUser = new UserHandler('./db/users')
 
-const user = new User("Dennis", "dennis@oui.com", "chipsobeur");
+const user = new User("Denis", "denis@oui.com", "chipsobeur");
 
-dbMet.save('Dennis', '0', met, (err: Error | null) => {
+dbMet.save('Denis', '0', met, (err: Error | null) => {
   if (err) throw err
   console.log('Data populated')
 })

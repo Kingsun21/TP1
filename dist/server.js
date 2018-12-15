@@ -69,7 +69,7 @@ const authMiddleware = function (req, res, next) {
   Root
 */
 app.get('/', authMiddleware, (req, res) => {
-    res.render('index', { name: req.session.username });
+    res.render('index', { name: req.session.user.username });
 });
 /*
   Users
@@ -130,7 +130,7 @@ metricsRouter.get('/:username/:id', (req, res, next) => {
     }
 });
 metricsRouter.post('/:id', (req, res, next) => {
-    dbMet.save(req.params.username, req.params.id, req.body, (err) => {
+    dbMet.save(req.session.user.username, req.params.id, req.body, (err) => {
         if (err)
             next(err);
         res.status(200).send();
