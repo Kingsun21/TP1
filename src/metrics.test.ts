@@ -41,10 +41,6 @@ describe('Metrics', function () {
     })
   })
 
-describe('#update', function(){
-    it('should update data', function () {
-
-  })
 
 
   describe('#delete', function () {
@@ -54,7 +50,6 @@ describe('#update', function(){
         expect(err).to.be.null
       })
     })
-  })
 
     it('should not fail if data does not exist', function () {
       dbMet.get("user", "0", function (err: Error | null, result?: Metric[]) {

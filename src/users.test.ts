@@ -19,29 +19,37 @@ describe('Users', function () {
     it('should get undefined on non existing User', function () {
       dbUser.get("0", function (err: Error | null, result?: User) {
         expect(err).to.be.null
-        expect(result).to.not.be.undefined
-        expect(result).to.be.empty
+        expect(result).to.be.undefined
       })
     })
   })
-/*
+
   describe('#save', function () {
     it('should save a User', function () {
-      expect(err).to.be.null
-    })
-
-    it('should update a User', function () {
-      expect(err).to.be.null
+      const user = new User("u", "u@g.com", "mdp");
+      dbUser.save(user, function (err: Error | null) {
+        expect(err).to.be.null
+      })
+      dbUser.get("0", function (err: Error | null, result?: User) {
+        expect(err).to.be.null
+        expect(result).to.not.be.undefined
+      })
     })
   })
 
   describe('#delete', function () {
     it('should delete a User', function () {
-      expect(err).to.be.null
+      const user = new User("u", "u@g.com", "mdp");
+      dbUser.delete("0", function (err: Error | null) {
+        expect(err).to.be.null
+      })
     })
 
     it('should not fail if User does not exist', function () {
-      expect(err).to.be.null
+      dbUser.get("0", function (err: Error | null, result?: User) {
+        expect(err).to.be.null
+        expect(result).to.be.undefined
+      })
     })
-  })*/
+  })
 })

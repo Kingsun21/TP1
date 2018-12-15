@@ -145,17 +145,21 @@ metricsRouter.get('/:username/:id', (req: any, res: any, next: any) => {
 })
 
 metricsRouter.post('/:id', (req: any, res: any, next: any) => {
-  dbMet.save(req.session.user.username, req.params.id, req.body, (err: Error | null) => {
-    if (err) next(err)
-    res.status(200).send()
-  })
+  if (req.session.user.username === req.params.username) {
+    dbMet.save(req.session.user.username, req.params.id, req.body, (err: Error | null) => {
+      if (err) next(err)
+      res.status(200).send()
+    })
+  }
 })
 
 metricsRouter.delete('/:id', (req: any, res: any, next: any) => {
-  dbMet.remove(req.params.username, req.params.id, (err: Error | null) => {
-    if (err) next(err)
-    res.status(200).send()
-  })
+  if (req.session.user.username === req.params.username) {
+    dbMet.remove(req.params.username, req.params.id, (err: Error | null) => {
+      if (err) next(err)
+      res.status(200).send()
+    })
+  }
 })
 
 app.use('/metrics', authMiddleware, metricsRouter)
