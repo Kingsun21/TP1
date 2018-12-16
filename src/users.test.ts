@@ -16,39 +16,44 @@ describe('Users', function () {
   })
 
   describe('#get', function () {
-    it('should get undefined on non existing User', function () {
+    it('should get undefined on non existing User', function (done) {
       dbUser.get("0", function (err: Error | null, result?: User) {
         expect(err).to.be.null
         expect(result).to.be.undefined
+        done();
       })
     })
   })
 
   describe('#save', function () {
-    it('should save a User', function () {
+    it('should save a User', function (done) {
       const user = new User("u", "u@g.com", "mdp");
       dbUser.save(user, function (err: Error | null) {
-        expect(err).to.be.null
+        expect(err).to.be.undefined
+        dbUser.get("u", function (err: Error | null, result?: User) {
+          expect(err).to.be.null
+          expect(result).to.not.be.undefined
+          done();
+        })
       })
-      dbUser.get("0", function (err: Error | null, result?: User) {
-        expect(err).to.be.null
-        expect(result).to.not.be.undefined
-      })
+
     })
   })
 
   describe('#delete', function () {
-    it('should delete a User', function () {
+    it('should delete a User', function (done) {
       const user = new User("u", "u@g.com", "mdp");
-      dbUser.delete("0", function (err: Error | null) {
-        expect(err).to.be.null
+      dbUser.delete("u", function (err: Error | null) {
+        expect(err).to.be.undefined
+        done();
       })
     })
 
-    it('should not fail if User does not exist', function () {
-      dbUser.get("0", function (err: Error | null, result?: User) {
+    it('should not fail if User does not exist', function (done) {
+      dbUser.get("u", function (err: Error | null, result?: User) {
         expect(err).to.be.null
         expect(result).to.be.undefined
+        done();
       })
     })
   })
